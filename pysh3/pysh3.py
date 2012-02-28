@@ -28,9 +28,29 @@ import os
 import os.path
 import re
 import subprocess
+import keyword
+
+# TODO Implement completion for files
 
 class PySHUtils(object):
-	def shrun(shelements):
+	def __init__(self, path):
+		self.path = path
+	
+	def cmd_cd(self, arguments):
+		if arguments:
+			target = os.path.expanduser(arguments[0])
+			if os.path.isdir(target):
+				os.chdir(target)
+			else:
+				print("Not a directory: %s" % target, file=sys.stderr)
+		else:
+			os.chdir(os.path.expanduser("~"))
+	
+	def cmd_echo(self, arguments):
+		# TODO Implement cmd_echo
+		pass
+	
+	def shrun(self, shelements):
 		# Find subprocesses
 		processes = []
 		process = []
@@ -38,43 +58,88 @@ class PySHUtils(object):
 			if element == "|": # pipe
 				processes.append(process)
 				process = []
+			else:
+				process.append(element)
 		else:
 			processes.append(process)
 		
-		if 
+		lastProcess = processes.pop()
+		stdin = sys.stdin
 		
-		print("Running " + repr(shelements))
+		for process in processes:
+			p = self.makeProcess(process, stdin, subprocess.PIPE)
+			stdin = p.stdout
+		
+		p = self.makeProcess(lastProcess, stdin, sys.stdout)
+		p.wait()
 	
-	def process(name, args, stdin=sys.stdin, stdout=sys.stdout):
-		pass
+	def find(self, command):
+		if command.startswith("./"):
+			return command
+		
+		for path in self.path:
+			filename = os.path.join(path, command)
+			if os.path.isfile(filename):
+				return filename
 	
-	def inline(shelements):
+	def makeProcess(self, args, stdin, stdout):
+		name = self.find(args[0])
+		
+		if name is None:
+			# TODO Add a relevant exception type here
+			raise Exception("Command not found: %s" % name)
+		
+		args[0] = name
+		return subprocess.Popen(args, stdin=stdin, stdout=stdout)
+	
+	def inline(self, shelements):
 		pass
 
 class PySH(code.InteractiveConsole):
 	banner = """PySH"""
 	inlineShellPattern = re.compile(r'`([^`]+)`')
+	linePattern = re.compile(r'(\s*)(.+)')
 	
 	def __init__(self, path=""):
-		self.super.__init__({'__pysh__':PySHUtils})
 		self.paths = path.split(":")
+		self.util = PySHUtils(self.paths)
+		self.super.__init__({
+			'__pysh__' : self.util
+		})
 	
 	def push(self, line):
-		shelements = shlex.split(line)
+		# FIXME While in block mode, the prompt is not the usual "..."
 		
-		isShell = False
+		m = self.linePattern.match(line)
 		
-		# Try to find an executable corresponding to the line
-		for path in self.paths:
-			filename = os.path.join(path, shelements[0])
-			if os.path.isfile(filename):
-				# Got it, translate shell into python :)
+		if m is not None:
+			indent = m.group(1)
+			line = m.group(2)
+			
+			shelements = shlex.split(line)
+			first = shelements[0]
+			
+			if first in keyword.kwlist:
+				# The first word is a keyword, looks like python
+				line = self.processInlineShell(line)
+			
+			elif "(" in first:
+				# Looks like a method call: python
+				line = self.processInlineShell(line)
+			
+			elif hasattr(self.util, "cmd_" + first):
+				# It's a shell internal command like cd, help...
+				line = self.processCommand(shelements)
+			
+			elif self.util.find(first) is not None:
+				# Shell command: ls, cat...
 				line = self.translate(shelements)
-				isShell = True
-		
-		if not isShell:
-			# Maybe there are some `` in there
-			line = self.processInlineShell(line)
+			
+			else:
+				# Ok, assume it's python by default
+				line = self.processInlineShell(line)
+			
+			line = indent + line
 		
 		self.super.push(line)
 	
@@ -87,6 +152,9 @@ class PySH(code.InteractiveConsole):
 	def processInlineShell(self, line):
 		# TODO Do a regex callback replace with __pysh__.inline
 		return line
+	
+	def processCommand(self, shelements):
+		return "__pysh__.cmd_" + shelements[0] + "(" + repr(shelements[1:]) + ")"
 	
 	@property
 	def super(self):
