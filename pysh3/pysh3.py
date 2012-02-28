@@ -46,10 +46,6 @@ class PySHUtils(object):
 		else:
 			os.chdir(os.path.expanduser("~"))
 	
-	def cmd_echo(self, arguments):
-		# TODO Implement cmd_echo
-		pass
-	
 	def shrun(self, shelements):
 		# Find subprocesses
 		processes = []
