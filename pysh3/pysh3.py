@@ -119,10 +119,6 @@ class PySH(code.InteractiveConsole):
 				# The first word is a keyword, looks like python
 				line = self.processInlineShell(line)
 			
-			elif "(" in first:
-				# Looks like a method call: python
-				line = self.processInlineShell(line)
-			
 			elif hasattr(self.util, "cmd_" + first):
 				# It's a shell internal command like cd, help...
 				line = self.processCommand(shelements)
