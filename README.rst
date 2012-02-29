@@ -28,10 +28,6 @@ You can also mix python and shell::
 
   > if True:
   .    ls
-  .
-  > # The below syntax is currently available in the inline-shell branch only
-  > myvar = `ls`
-  > print(myvar)
 
 Internals
 =========
