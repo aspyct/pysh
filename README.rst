@@ -29,7 +29,9 @@ You can also mix python and shell::
   > if True:
   .    ls
 
-How does it work ?
-==================
+Internals
+=========
 
 pysh uses the built-in *code* module to emulate the python interpreter, and tries to detect whether a line is a shell command or regular python code. Every line is translated before it is fed to the interpreter.
+
+In the pysh shell, there is a special variable named `__pysh__` that is used to make shell commands happen. You may use this class directly, but it will probably not make your code cleaner.
