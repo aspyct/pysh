@@ -6,7 +6,7 @@ pysh is a Shell that mixes Python and Bash syntax.
 Discover it
 ===========
 
-It's really easy to get started. All you need is Python3. Download the zip file, unzip it on the destination of your choice, chmod the `pysh` file and execute it.::
+It's really easy to get started. All you need is Python3. Download the zip file, unzip it on the destination of your choice, chmod the `pysh` file and execute it.:
 
   unzip aspyct-pysh-xxxx.zip -d pysh
   cd pysh
