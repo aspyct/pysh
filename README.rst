@@ -23,3 +23,13 @@ Shell commands also work::
 
   > ls
   > vi <yourfile>
+
+You can also mix python and shell::
+
+  > if True:
+  .    ls
+
+How does it work ?
+==================
+
+pysh uses the built-in *code* module to emulate the python interpreter, and tries to detect whether a line is a shell command or regular python code. Every line is translated before it is fed to the interpreter.
