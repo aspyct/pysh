@@ -47,6 +47,9 @@ class PySHUtils(object):
 			os.chdir(os.path.expanduser("~"))
 	
 	def shrun(self, shelements):
+		self.parseAndMake(shelements).wait()
+	
+	def parseAndMake(self, shelements, stdout=sys.stdout):
 		# Find subprocesses
 		processes = []
 		process = []
@@ -58,16 +61,15 @@ class PySHUtils(object):
 				process.append(element)
 		else:
 			processes.append(process)
-		
+
 		lastProcess = processes.pop()
 		stdin = sys.stdin
-		
+
 		for process in processes:
 			p = self.makeProcess(process, stdin, subprocess.PIPE)
 			stdin = p.stdout
-		
-		p = self.makeProcess(lastProcess, stdin, sys.stdout)
-		p.wait()
+
+		return self.makeProcess(lastProcess, stdin, stdout)
 	
 	def find(self, command):
 		if command.startswith("./"):
@@ -89,7 +91,7 @@ class PySHUtils(object):
 		return subprocess.Popen(args, stdin=stdin, stdout=stdout)
 	
 	def inline(self, shelements):
-		pass
+		return self.parseAndMake(shelements, subprocess.PIPE).stdout.read()
 
 class PySH(code.InteractiveConsole):
 	banner = """PySH"""
@@ -139,14 +141,16 @@ class PySH(code.InteractiveConsole):
 		self.super.interact(self.banner)
 	
 	def translate(self, shelements):
-		return "__pysh__.shrun(" + repr(shelements) + ")"
+		return "(__pysh__.shrun(" + repr(shelements) + "))"
 	
 	def processInlineShell(self, line):
-		# TODO Do a regex callback replace with __pysh__.inline
-		return line
+		def replacer(match):
+			return "(__pysh__.inline(" + repr(shlex.split(match.group(1))) + "))"
+		
+		return self.inlineShellPattern.sub(replacer, line)
 	
 	def processCommand(self, shelements):
-		return "__pysh__.cmd_" + shelements[0] + "(" + repr(shelements[1:]) + ")"
+		return "(__pysh__.cmd_" + shelements[0] + "(" + repr(shelements[1:]) + "))"
 	
 	@property
 	def super(self):
