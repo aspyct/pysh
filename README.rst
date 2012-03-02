@@ -30,7 +30,7 @@ You are now in what looks like a regular python interpreter. Try to write some p
   > if True:
   .    print("pysh looks terrific ! :)")
 
-Shell commands also work::
+Shell commands also work, as well as autocompletion with tab::
 
   > ls
   > vi <yourfile>
