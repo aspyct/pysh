@@ -100,9 +100,12 @@ class InlineExec(object):
 	def __str__(self, encoding=None):
 		encoding = self.getencoding(encoding)
 		return self.process.stdout.read().decode(encoding)
+	
 	def __bytes__(self):
+		return self.process.stdout.read()
 	
 	def __iter__(self, encoding=None):
+		encoding = self.getencoding(encoding)
 		
 		data = self.process.stdout.readline()
 		while data:
