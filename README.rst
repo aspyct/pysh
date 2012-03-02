@@ -28,6 +28,9 @@ You can also mix python and shell::
 
   > if True:
   .    ls
+  .
+  > myvar = `ls`
+  > print(myvar)
 
 Internals
 =========
