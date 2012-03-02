@@ -3,6 +3,12 @@ pysh
 
 pysh is a Shell that mixes Python and Bash syntax.
 
+Installing
+==========
+
+Run the usual setup.py script, with Python3.
+Note: under OSX, you may need to add the path to your python library in order to have pysh in the path.
+
 Discover it
 ===========
 
