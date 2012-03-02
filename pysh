@@ -29,6 +29,8 @@ import os.path
 import re
 import subprocess
 import keyword
+from glob import glob
+import traceback
 
 # TODO Implement completion for files
 
@@ -117,6 +119,64 @@ class InlineExec(object):
 			encoding = sys.getdefaultencoding()
 		return encoding
 
+class Completer(object):
+	def __init__(self):
+		self.lastText = None
+		self.lastResults = None
+	
+	def complete(self, text, index):
+		if text != self.lastText or index == 0:
+			# Do a new search
+			self.lastText = text
+			self.results = self.search(text)
+		
+		try:
+			return self.results[index]
+		except IndexError:
+			return None
+	
+	def search(self, text):
+		results = []
+		
+		# If the text corresponds to a directory, add it to the result list
+		if text != "." and os.path.isdir(text):
+			if text[-1] == os.path.sep:
+				dirname = text
+			else:
+				dirname = text + os.path.sep
+			
+			fname = ""
+			results.append(dirname)
+		
+		else:
+			dirname = os.path.dirname(text)
+			fname = os.path.basename(text)
+		
+		# List the directory
+		files = os.listdir(dirname or ".")
+		
+		for f in files:
+			if f.startswith(fname):
+				full = os.path.join(dirname, f)
+				
+				# If it's a directory, suffix with /
+				if os.path.isdir(full):
+					full += os.path.sep
+				
+				results.append(full)
+		
+		return results
+	
+	def install(self):
+		readline.set_completer(self.complete)
+		
+		# Simple hack to detect if readline is actually libedit, might break
+		if "libedit" in readline.__doc__:
+			readline.parse_and_bind("bind '\t' rl_complete")
+		else:
+			readline.parse_and_bind("tab: complete")
+	
+
 class PySH(code.InteractiveConsole):
 	banner = """PySH"""
 	inlineShellPattern = re.compile(r'`([^`]+)`')
@@ -181,6 +241,10 @@ class PySH(code.InteractiveConsole):
 		return super(PySH, self)
 
 def main():
+	if sys.stdin.isatty():
+		completer = Completer()
+		completer.install()
+	
 	console = PySH(os.getenv("PATH"))
 	console.interact()
 
