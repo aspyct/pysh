@@ -66,6 +66,8 @@ class PySHUtils(object):
 				processes.append(process)
 				process = []
 			else:
+				if "~" in element:
+					element = os.path.expanduser(element)
 				if glob.has_magic(element):
 					process.extend(glob.glob(element))
 				else:
