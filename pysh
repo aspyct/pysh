@@ -29,8 +29,7 @@ import os.path
 import re
 import subprocess
 import keyword
-from glob import glob
-import traceback
+import glob
 
 # TODO Implement completion for files
 
@@ -60,7 +59,10 @@ class PySHUtils(object):
 				processes.append(process)
 				process = []
 			else:
-				process.append(element)
+				if glob.has_magic(element):
+					process.extend(glob.glob(element))
+				else:
+					process.append(element)
 		else:
 			processes.append(process)
 
