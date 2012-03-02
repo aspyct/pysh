@@ -3,6 +3,11 @@ pysh
 
 pysh is a Shell that mixes Python and Bash syntax.
 
+Requirements
+============
+
+pysh requires only Python3 to run, and should work on Linux and OSX platforms (and probably other UNIX environments).
+
 Installing
 ==========
 
