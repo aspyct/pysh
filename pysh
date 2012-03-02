@@ -91,7 +91,28 @@ class PySHUtils(object):
 		return subprocess.Popen(args, stdin=stdin, stdout=stdout)
 	
 	def inline(self, shelements):
-		return self.parseAndMake(shelements, subprocess.PIPE).stdout.read()
+		return InlineExec(self.parseAndMake(shelements, subprocess.PIPE))
+
+class InlineExec(object):
+	def __init__(self, process):
+		self.process = process
+	
+	def __str__(self, encoding=None):
+		encoding = self.getencoding(encoding)
+		return self.process.stdout.read().decode(encoding)
+	def __bytes__(self):
+	
+	def __iter__(self, encoding=None):
+		
+		data = self.process.stdout.readline()
+		while data:
+			yield data.decode(encoding).rstrip(os.linesep)
+			data = self.process.stdout.readline()	
+
+	def getencoding(self, encoding):
+		if encoding is None:
+			encoding = sys.getdefaultencoding()
+		return encoding
 
 class PySH(code.InteractiveConsole):
 	banner = """PySH"""
