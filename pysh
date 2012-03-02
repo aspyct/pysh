@@ -159,7 +159,7 @@ class PySH(code.InteractiveConsole):
 			
 			line = indent + line
 		
-		self.super.push(line)
+		return self.super.push(line)
 	
 	def interact(self):
 		self.super.interact(self.banner)
