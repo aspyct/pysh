@@ -6,8 +6,13 @@ pysh is a Shell that mixes Python and Bash syntax.
 Installing
 ==========
 
-Run the usual setup.py script, with Python3.
+You don't need to install PySH to start working with it. Jump to "Discover it" if you do not wish to install it.
+
+Run the usual setup.py script. The script will run only if you launch it with Python3.
 Note: under OSX, you may need to add the path to your python library in order to have pysh in the path.
+
+! Important ! PySH is still beta software, and you should not use it for your everyday work unless your know what you are doing.
+If, like me, you want to use PySH as default shell, the best option is to set it only in your terminal emulator (gnome-terminal, Apple terminal app...) via the preferences of the application.
 
 Discover it
 ===========
