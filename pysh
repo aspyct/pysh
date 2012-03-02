@@ -31,7 +31,7 @@ import subprocess
 import keyword
 import glob
 
-# TODO Implement completion for files
+PYSHRC = os.path.expanduser("~/.pyshrc")
 
 class PySHUtils(object):
 	def __init__(self, path):
@@ -46,6 +46,13 @@ class PySHUtils(object):
 				print("Not a directory: %s" % target, file=sys.stderr)
 		else:
 			os.chdir(os.path.expanduser("~"))
+	
+	def cmd_migrate(self, arguments):
+		print("Warning: this will overwrite your .pyshrc file.")
+		yesno = input("Do you wish to continue ? y/n: ")
+		if yesno == "y":
+			with open(PYSHRC, "w") as f:
+				f.write("export PATH={!r}\n".format(os.getenv("PATH")))
 	
 	def shrun(self, shelements):
 		self.parseAndMake(shelements).wait()
@@ -193,7 +200,6 @@ class PySH(code.InteractiveConsole):
 	
 	def push(self, line):
 		# FIXME While in block mode, the prompt is not the usual "..."
-		
 		m = self.linePattern.match(line)
 		
 		if m is not None:
