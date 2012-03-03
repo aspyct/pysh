@@ -215,24 +215,29 @@ class PySH(code.InteractiveConsole):
 			indent = m.group(1)
 			line = m.group(2)
 			
-			shelements = shlex.split(line)
-			first = shelements[0]
+			try:
+				shelements = shlex.split(line)
+				first = shelements[0]
 			
-			if first in keyword.kwlist:
-				# The first word is a keyword, looks like python
+			except ValueError: # Shell syntax error, not shell then
 				line = self.processInlineShell(line)
-			
-			elif hasattr(self.util, "cmd_" + first):
-				# It's a shell internal command like cd, help...
-				line = self.processCommand(shelements)
-			
-			elif self.util.find(first) is not None:
-				# Shell command: ls, cat...
-				line = self.translate(shelements)
 			
 			else:
-				# Ok, assume it's python by default
-				line = self.processInlineShell(line)
+				if first in keyword.kwlist:
+					# The first word is a keyword, looks like python
+					line = self.processInlineShell(line)
+
+				elif shelements is not None and hasattr(self.util, "cmd_" + first):
+					# It's a shell internal command like cd, help...
+					line = self.processCommand(shelements)
+
+				elif self.util.find(first) is not None:
+					# Shell command: ls, cat...
+					line = self.translate(shelements)
+
+				else:
+					# Ok, assume it's python by default
+					line = self.processInlineShell(line)
 			
 			line = indent + line
 		
