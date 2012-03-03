@@ -36,12 +36,18 @@
   <body>
 
     <div class="navbar navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <a class="brand" href="#">pysh</a>
-        </div>
-      </div>
-    </div>
+	      <div class="navbar-inner">
+	        <div class="container">
+	          <a class="brand" href="#">pysh</a>
+	          <div class="nav-collapse">
+	            <ul class="nav">
+	              <li><a href="#about">on Github</a></li>
+	              <li><a href="#contact">Contact</a></li>
+	            </ul>
+	          </div><!--/.nav-collapse -->
+	        </div>
+	      </div>
+	    </div>
 
     <div class="container">
 
@@ -113,6 +119,36 @@ $ ./bin/pysh</pre>
 			<p>pysh is open source software, and available under the terms of the <a href="http://www.opensource.org/licenses/mit-license.php">MIT license</a>.</p>
 		</div>
 	</div>
+	<div class="row">
+		<div class="span6">
+			<h2>How it works</h2>
+			<p>
+				There's no magic behind pysh but some code parsing.
+				Each line you enter is analyzed by pysh and ultimately translated into plain python code.
+			</p>
+			<p>
+				For example, if you enter
+			</p>
+			<pre>for file in `ls`:
+    cat $file</pre>
+			<p>it gets translated into</p>
+			<pre>for file in (__pysh__.inline(['ls'])):
+    (__pysh__.shellrun(['cat', file]))</pre>
+			<p>While this looks ugly, I agree, it is valid python code and will eventually turn into python bytecode. Once compiled, it runs at the same speed as plain python. It's just that you write it faster :)</p>
+		</div>
+		<div class="span3">
+			<h2>Report a bug</h2>
+			<p>If you find a bug, please be kind and report it, either by creating a new issue on the <a href="https://github.com/aspyct/pysh/issues">github issue tracker</a>, or by <a href="mailto:a.dotreppe@aspyct.org">sending me a mail</a>.</p>
+		</div>
+		<div class="span3">
+			<h2>Contact me</h2>
+			<p>There are many ways to get in touch with me, you can</p>
+			<ul>
+				<li>mention me, <a href="https://twitter.com/#!/aspyct">@aspyct</a>, on twitter</li>
+				<li>follow me, <a href="http://www.github.com/aspyct">aspyct</a>, on github</a></li>
+			</ul>
+		</div>
+	</div>
 
       <hr>
 
@@ -125,23 +161,6 @@ $ ./bin/pysh</pre>
       </footer>
 
     </div> <!-- /container -->
-
-    <!-- Le javascript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="bootstrapjs/jquery.js"></script>
-    <script src="bootstrapjs/bootstrap-transition.js"></script>
-    <script src="bootstrapjs/bootstrap-alert.js"></script>
-    <script src="bootstrapjs/bootstrap-modal.js"></script>
-    <script src="bootstrapjs/bootstrap-dropdown.js"></script>
-    <script src="bootstrapjs/bootstrap-scrollspy.js"></script>
-    <script src="bootstrapjs/bootstrap-tab.js"></script>
-    <script src="bootstrapjs/bootstrap-tooltip.js"></script>
-    <script src="bootstrapjs/bootstrap-popover.js"></script>
-    <script src="bootstrapjs/bootstrap-button.js"></script>
-    <script src="bootstrapjs/bootstrap-collapse.js"></script>
-    <script src="bootstrapjs/bootstrap-carousel.js"></script>
-    <script src="bootstrapjs/bootstrap-typeahead.js"></script>
 
   </body>
 </html>
