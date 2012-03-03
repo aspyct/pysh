@@ -28,6 +28,7 @@ import re
 import subprocess
 import keyword
 import glob
+import pydoc
 
 from pysh.meta import __version__, __author__
 
@@ -38,6 +39,8 @@ class PySHUtils(object):
 		self.path = path
 	
 	def cmd_cd(self, arguments):
+		"""Change current working directory"""
+		
 		if arguments:
 			target = os.path.expanduser(arguments[0])
 			if os.path.isdir(target):
@@ -48,11 +51,57 @@ class PySHUtils(object):
 			os.chdir(os.path.expanduser("~"))
 	
 	def cmd_migrate(self, arguments):
+		"""Migrate from your previous shell to pysh
+		
+		When you're ready to install pysh, execute this command first
+		to migrate your current settings to the ~/.pyshrc file.
+		This is necessary to keep your PATH and other important variables.
+		"""
+		
 		print("Warning: this will overwrite your .pyshrc file.")
 		yesno = input("Do you wish to continue ? y/n: ")
 		if yesno == "y":
 			with open(PYSHRC, "w") as f:
 				f.write("export PATH={!r}\n".format(os.getenv("PATH")))
+	
+	def cmd_help(self, arguments):
+		"""Get help on pysh"""
+		
+		if arguments:
+			command = arguments[0]
+			
+			if command.startswith("("):
+				# Bet user wanted pydoc's help ?
+				print("For pydoc help, type \"help(...)\" with no space or use pyhelp()")
+			else:
+				# Get info for a specific command
+				attrName = "cmd_" + command
+				try:
+					method = getattr(self, attrName)
+				except AttributeError:
+					print("No such command: " + command)
+				else:
+					# TODO Parse doc to remove extra whitespaces at the beginning of lines
+					for line in map(lambda x: x.lstrip(), method.__doc__.split("\n")):
+						print(line)
+		else:
+			# List available shell commands
+			commands = []
+			for attrName in dir(self):
+				if attrName.startswith("cmd_"):
+					commands.append(attrName)
+		
+			longest = max(map(lambda x: len(x), commands))
+		
+			print("For python help, use \"pyhelp()\"")
+			print("For detailed help on a specific command, type \"help <command>\"")
+			print()
+			
+			for command in commands:
+				method = getattr(self, command)
+				command = command[4:]
+				brief = method.__doc__.split("\n", 1)[0]
+				print("  {:<{}}{}".format(command, longest, brief))
 	
 	def shrun(self, shelements):
 		try:
@@ -207,7 +256,8 @@ class PySH(code.InteractiveConsole):
 		self.paths = path.split(":")
 		self.util = PySHUtils(self.paths)
 		self.super.__init__({
-			'__pysh__' : self.util
+			'__pysh__' : self.util,
+			'pyhelp'   : pydoc.help
 		})
 	
 	def push(self, line):
