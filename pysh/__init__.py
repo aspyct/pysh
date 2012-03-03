@@ -288,7 +288,7 @@ class PySH(code.InteractiveConsole):
 					# The first word is a keyword, looks like python
 					line = self.processInlineShell(line)
 
-				if shelements is not None and hasattr(self.util, "cmd_" + first):
+				elif shelements is not None and hasattr(self.util, "cmd_" + first):
 					# It's a shell internal command like cd, help...
 					line = self.processCommand(shelements)
 
