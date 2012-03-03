@@ -33,9 +33,6 @@ from pysh.meta import __version__, __author__
 
 PYSHRC = os.path.expanduser("~/.pyshrc")
 
-# Meta information
-__version__ = "0.1"
-
 class PySHUtils(object):
 	def __init__(self, path):
 		self.path = path
