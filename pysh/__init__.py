@@ -284,11 +284,11 @@ class PySH(code.InteractiveConsole):
 				line = self.processInlineShell(line)
 			
 			else:
-				if first in keyword.kwlist:
+				if first in keyword.kwlist or first in self.locals:
 					# The first word is a keyword, looks like python
 					line = self.processInlineShell(line)
 
-				elif shelements is not None and hasattr(self.util, "cmd_" + first):
+				if shelements is not None and hasattr(self.util, "cmd_" + first):
 					# It's a shell internal command like cd, help...
 					line = self.processCommand(shelements)
 
