@@ -266,7 +266,7 @@ class PySH(code.InteractiveConsole):
 		for line in f:
 			self.push(line)
 		else:
-			# Be sure to finish the execution if the script does not end with a newline
+			# Needed in case the script does not end with an empty line
 			self.push("\n")
 	
 	def push(self, line):
