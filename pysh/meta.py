@@ -1,2 +1,2 @@
-__version__ = "0.1"
+__version__ = "0.1d"
 __author__ = "Antoine d'Otreppe <a.dotreppe@aspyct.org>"
