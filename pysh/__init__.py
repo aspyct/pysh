@@ -261,8 +261,15 @@ class PySH(code.InteractiveConsole):
 			'pyhelp'   : pydoc.help
 		})
 	
+	def runscript(self, f):
+		# TODO There should be a better way to do this.
+		for line in f:
+			self.push(line)
+		else:
+			# Be sure to finish the execution if the script does not end with a newline
+			self.push("\n")
+	
 	def push(self, line):
-		# FIXME While in block mode, the prompt is not the usual "..."
 		m = self.linePattern.match(line)
 		
 		if m is not None:
