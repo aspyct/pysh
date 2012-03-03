@@ -15,6 +15,7 @@ setup(
 	author="Antoine d'Otreppe de Bouvette",
 	author_email="a.dotreppe@aspyct.org",
 	url="http://www.github.com/aspyct/pysh",
-	scripts=["pysh"],
+	scripts=["bin/pysh"],
+	packages=["pysh"],
 	license="MIT"
 )

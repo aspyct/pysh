@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 # Copyright (c) 2012 Antoine d'Otreppe de Bouvette
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -32,6 +30,9 @@ import keyword
 import glob
 
 PYSHRC = os.path.expanduser("~/.pyshrc")
+
+# Meta information
+__version__ = "0.1"
 
 class PySHUtils(object):
 	def __init__(self, path):
@@ -189,7 +190,7 @@ class Completer(object):
 	
 
 class PySH(code.InteractiveConsole):
-	banner = """PySH"""
+	banner = "PySH " + __version__
 	inlineShellPattern = re.compile(r'`([^`]+)`')
 	linePattern = re.compile(r'(\s*)(.+)')
 	
@@ -249,14 +250,3 @@ class PySH(code.InteractiveConsole):
 	@property
 	def super(self):
 		return super(PySH, self)
-
-def main():
-	if sys.stdin.isatty():
-		completer = Completer()
-		completer.install()
-	
-	console = PySH(os.getenv("PATH"))
-	console.interact()
-
-if __name__ == '__main__':
-	main()
