@@ -130,6 +130,13 @@ class InlineExec(object):
 			encoding = sys.getdefaultencoding()
 		return encoding
 
+class InlineVar(object):
+	def __init__(self, name):
+		self.name = name
+	
+	def __repr__(self):
+		return self.name
+
 class Completer(object):
 	def __init__(self):
 		self.lastText = None
@@ -235,15 +242,30 @@ class PySH(code.InteractiveConsole):
 		self.super.interact(self.banner)
 	
 	def translate(self, shelements):
-		return "(__pysh__.shrun(" + repr(shelements) + "))"
+		return "(__pysh__.shrun(" + repr(self.inlineVars(shelements)) + "))"
+	
+	def inlineVars(self, command):
+		# Find inline variables
+		for i, arg in enumerate(command):
+			if arg.startswith("$"): # It's an inline variable
+				varname = arg[1:]
+				if varname:
+					command[i] = InlineVar(varname)
+				else:
+					raise SyntaxError("Empty variable name")
+		
+		return command
 	
 	def processInlineShell(self, line):
 		def replacer(match):
-			return "(__pysh__.inline(" + repr(shlex.split(match.group(1))) + "))"
+			command = shlex.split(match.group(1))
+			command = self.inlineVars(command)
+			return "(__pysh__.inline(" + repr(command) + "))"
 		
 		return self.inlineShellPattern.sub(replacer, line)
 	
 	def processCommand(self, shelements):
+		shelements = self.inlineVars(shelements)
 		return "(__pysh__.cmd_" + shelements[0] + "(" + repr(shelements[1:]) + "))"
 	
 	@property
