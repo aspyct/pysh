@@ -29,6 +29,8 @@ import subprocess
 import keyword
 import glob
 
+from pysh.meta import __version__, __author__, __pyshrc__
+
 PYSHRC = os.path.expanduser("~/.pyshrc")
 
 # Meta information
