@@ -57,30 +57,61 @@
 
       <!-- Example row of columns -->
       <div class="row">
-        <div class="span4">
-          <h2>use Python...</h2>
-			<pre>> import os
+        <div class="span6">
+          <h2>Example</h2>
+			<pre>&gt; # Some python
+&gt; import os
 &gt; for file in os.listdir():
 .     with open(file) as f:
-.         print(f.read())</pre>
-   			<p>pysh can act as a regular python interactive shell. You can do anything you would do normally with python.</p>
-        </div>
-        <div class="span4">
-          <h2>or Bash...</h2>
-			<pre>&gt; git status
+.         print(f.read())
+.
+&gt; # Now some bash
+&gt; git status
 &gt; cat pysh | grep sys
 &gt; vi pysh
-&gt; git ci -a -m "Did changes"</pre>
-   			<p>Some elements of the Bash syntax can be used in pysh. Currently only the pipe construction works, but more is to come.</p>
-       </div>
-        <div class="span4">
-          <h2>or both with <span class="reveal-pysh">pysh</span> :)</h2>
-			<pre>&gt; for file in `ls`:
+&gt;
+&gt; # And finally, some pysh :)
+&gt; for file in `ls`:
 .     cat $file | grep python
 .
 </pre>
-  			<p>pysh also allows you to mix Python and bash</p>
         </div>
+        <div class="span6">
+          <h2>Getting started</h2>
+			<p>Download the <a href="https://github.com/aspyct/pysh/zipball/develop">latest version of pysh</a>, unzip it into the directory of your choice and run <code>./bin/pysh</code>.</p>
+			<p>Make sure you have <strong>Python 3</strong> installed on your machine.</p>
+			<pre>$ unzip aspyct-pysh-&lt;version&gt;.zip
+$ cd aspyct-pysh-&lt;version&gt;
+$ chmod +x bin/pysh
+$ ./bin/pysh</pre>
+          <h2>Key features</h2>
+			<ul>
+				<li>Full support for Python</li>
+				<li>Partial support of Bash syntax, will be improved in the future</li>
+				<li>Automate your tasks with custom scripts: <code>pysh myscript.pysh</code></li>
+				<li>Bash-like tab completion for files and folders</li>
+			</ul>
+        </div>
+	</div>
+	<div class="row">
+		<div class="span3">&nbsp;</div>
+		<div class="span3"></div>
+	</div>
+	<div class="row">
+		<div class="span3">
+			<h2>Requirements</h2>
+			<p>pysh requires only <strong>Python 3</strong> to be installed on your system, and is tested under Linux and Mac OSX.</p>
+		</div>
+		<div class="span6">
+			<div class="alert alert-info">
+				<p>Since pysh is a young product, it may be wiser to keep a good ol' bash as you default shell by now.</p>
+				<p>But you probably can do most of your work with pysh already :)</p>
+			</div>
+		</div>
+		<div class="span3">
+			<h2>License</h2>
+			<p>pysh is open source software, and available under the terms of the <a href="http://www.opensource.org/licenses/mit-license.php">MIT license</a>.</p>
+		</div>
 	</div>
 
       <hr>
