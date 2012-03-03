@@ -22,6 +22,7 @@
 
 import sys
 import os
+import os.path
 
 # Add current directory to path
 sys.path.insert(0, os.getcwd())
@@ -34,7 +35,21 @@ def main():
 		completer.install()
 	
 	console = pysh.PySH(os.getenv("PATH"))
-	console.interact()
+	if len(sys.argv) == 1: # No file to execute, go interactive
+		console.interact()
+	else:
+		files = sys.argv[1:]
+		for filename in files:
+			if not os.path.isfile(filename):
+				raise ValueError("Could not find file: " + filename)
+			elif not os.access(filename, os.R_OK):
+				raise ValueError("File is not readable: " + filename)
+		
+		# If everything is good, go execute the files in the right order
+		for filename in files:
+			with open(filename) as f:
+				for line in f:
+					console.push(line)
 
 if __name__ == '__main__':
 	main()
