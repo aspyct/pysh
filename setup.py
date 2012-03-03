@@ -3,7 +3,7 @@
 import sys
 
 if sys.version_info.major < 3:
-	print("pysh requires Python3 to run.")
+	print("Install me with Python3 only.  -- pysh")
 	sys.exit()
 
 from distutils.core import setup
