@@ -248,7 +248,8 @@ class Completer(object):
 	
 
 class PySH(code.InteractiveConsole):
-	banner = "PySH " + __version__
+	banner = "PySH " + __version__ + " / Python " + sys.version + \
+		os.linesep + "Type \"help\" for available commands."
 	inlineShellPattern = re.compile(r'`([^`]+)`')
 	linePattern = re.compile(r'(\s*)(.+)')
 	
