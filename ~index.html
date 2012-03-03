@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Bootstrap, from Twitter</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+
+		.reveal-pysh {
+			color: green;
+		}
+    </style>
+    <link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="#">pysh</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <!-- Main hero unit for a primary marketing message or call to action -->
+      <div class="hero-unit">
+        <h1><span class="reveal-pysh">Py</span>thon.<br/>&amp; Ba<span class="reveal-pysh">sh</span>.</h1>
+        <p>How about merging the power of Python with the powerful tools available in a shell ? If you are constantly switching from bash to python and vice-versa, look no further, you have found your nirvana!</p>
+        <p><a href="http://www.github.com/aspyct/pysh" class="btn btn-primary btn-large">pysh on Github</a></p>
+      </div>
+
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="span6">
+          <h2>Python</h2>
+           <p>pysh can act as a regular python interactive shell. You can do anything you would do normally with python.</p>
+			<pre>> import os
+&gt; for file in os.listdir():
+.     with open(file) as f:
+.         print(f.read())</pre>
+          <p><a class="btn" href="#">View details &raquo;</a></p>
+        </div>
+        <div class="span6">
+          <h2>Bash</h2>
+           <p>Some elements of the Bash syntax can be used in pysh. Currently only the pipe construction works, but more is to come :)</p>
+			<pre>&gt; git status
+&gt; cat pysh | grep sys
+&gt; vi pysh
+&gt; git ci -a -m "Grepped all the code"</pre>
+          <p><a class="btn" href="#">View details &raquo;</a></p>
+       </div>
+	</div>
+	<div class="row">
+        <div class="span6">
+          <h2>Both of them</h2>
+          <p>pysh also allows you to mix Python and bash</p>
+			<pre>&gt; for file in `ls`:
+.     cat $file
+.
+</pre>
+          <p><a class="btn" href="#">View details &raquo;</a></p>
+        </div>
+      </div>
+
+      <hr>
+
+      <footer>
+        <p>
+			pysh is coded with passion by Antoine d&apos;Otreppe since 2012.<br/>
+			Follow me on <a href="https://twitter.com/#!/aspyct">Twitter</a> and <a href="http://www.github.com/aspyct">Github</a>.<br/>
+			Email me at <a href="maito:a.dotreppe@aspyct.org">a.dotreppe@aspyct.org</a>.
+		</p>
+      </footer>
+
+    </div> <!-- /container -->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="bootstrapjs/jquery.js"></script>
+    <script src="bootstrapjs/bootstrap-transition.js"></script>
+    <script src="bootstrapjs/bootstrap-alert.js"></script>
+    <script src="bootstrapjs/bootstrap-modal.js"></script>
+    <script src="bootstrapjs/bootstrap-dropdown.js"></script>
+    <script src="bootstrapjs/bootstrap-scrollspy.js"></script>
+    <script src="bootstrapjs/bootstrap-tab.js"></script>
+    <script src="bootstrapjs/bootstrap-tooltip.js"></script>
+    <script src="bootstrapjs/bootstrap-popover.js"></script>
+    <script src="bootstrapjs/bootstrap-button.js"></script>
+    <script src="bootstrapjs/bootstrap-collapse.js"></script>
+    <script src="bootstrapjs/bootstrap-carousel.js"></script>
+    <script src="bootstrapjs/bootstrap-typeahead.js"></script>
+
+  </body>
+</html>
