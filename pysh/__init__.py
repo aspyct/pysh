@@ -102,7 +102,7 @@ class PySHUtils(object):
 			raise Exception("Command not found: %s" % name)
 		
 		args[0] = name
-		return subprocess.Popen(args, stdin=stdin, stdout=stdout)
+		return subprocess.Popen(args, stdin=stdin, stdout=stdout, env=os.environ)
 	
 	def inline(self, shelements):
 		return InlineExec(self.parseAndMake(shelements, subprocess.PIPE))
