@@ -55,7 +55,10 @@ class PySHUtils(object):
 				f.write("export PATH={!r}\n".format(os.getenv("PATH")))
 	
 	def shrun(self, shelements):
-		self.parseAndMake(shelements).wait()
+		try:
+			self.parseAndMake(shelements).wait()
+		except OSError as e:
+			print(e)
 	
 	def parseAndMake(self, shelements, stdout=sys.stdout):
 		# Find subprocesses
