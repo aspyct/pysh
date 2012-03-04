@@ -239,6 +239,11 @@ class Completer(object):
 	
 	def install(self):
 		readline.set_completer(self.complete)
+
+		# Issue #21: completion fails on directories under linux
+		delims = readline.get_completer_delims()
+		delims = delims.replace("/", "")
+		readline.set_completer_delims(delims)
 		
 		# Simple hack to detect if readline is actually libedit, might break
 		if "libedit" in readline.__doc__:
